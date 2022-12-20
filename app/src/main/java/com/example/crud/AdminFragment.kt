@@ -11,48 +11,64 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.crud.admin.AdminViewModel
 import com.example.crud.admin.Superadmin
+import com.example.crud.databinding.FragmentAddUserBinding
+import com.example.crud.databinding.FragmentAdminBinding
 
 class AdminFragment : Fragment() {
-    lateinit var adminViewModel: AdminViewModel
+    private lateinit var adminViewModel: AdminViewModel
+    private lateinit var adminBinding: FragmentAdminBinding
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_admin, container, false)
+        adminBinding = DataBindingUtil.inflate(layoutInflater,R.layout.fragment_admin, container, false)
         adminViewModel = ViewModelProvider(this)[AdminViewModel::class.java]
-        var check = 0
+        //var check = 0
+        //var adminName: String
+        //var adminPassword: String
         adminViewModel.readAdmin.observe(viewLifecycleOwner){
-            check+=it.size
+            //adminName = it[0].username
+            //adminPassword = it[0].password
+
         }
         /*val admin = Superadmin(0,"Admin","Admin")
         if(check<=2){
             adminViewModel.addAdmin(admin)
         }
         ?
-         */
+
         val loginBtn = view.findViewById<Button>(R.id.LoginBtn)
         val username = view.findViewById<EditText>(R.id.userName)
         val password = view.findViewById<EditText>(R.id.password)
-        loginBtn.setOnClickListener()
+
+         */
+        adminBinding.LoginBtn.setOnClickListener()
         {
-            val uname = username.text.toString()
-            val pass = password.text.toString()
-            if(uname=="Admin" && pass=="Admin")
+            val uname = adminBinding.userName.text.toString()
+            val pass = adminBinding.password.text.toString()
+            adminViewModel.adminLogin(uname,pass)
+            adminViewModel.isLoginSuccessful.observe(viewLifecycleOwner)
             {
-                findNavController().navigate(R.id.action_adminFragment_to_userListFragment)
+                if(it)
+                {
+                    findNavController().navigate(R.id.action_adminFragment_to_userListFragment)
+                }
+                else{
+                    Toast.makeText(adminBinding.root.context, "Invalid UserName or PassWord!", Toast.LENGTH_SHORT).show()
+                }
             }
-            else
-            {
-                Toast.makeText(view.context, "Wrong Username or Password!", Toast.LENGTH_SHORT).show()
-            }
+
         }
-        return view
+
+
+        return adminBinding.root
     }
 
 }

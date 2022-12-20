@@ -8,4 +8,5 @@ class AdminRepository(private val adminDao:AdminUserDao) {
     {
         adminDao.addAdmin(admin)
     }
+    suspend fun adminLogin(userName:String,passWord:String)=adminDao.checkAdmin(userName,passWord)
 }
