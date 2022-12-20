@@ -13,4 +13,9 @@ interface AdminUserDao {
 
     @Query("SELECT * FROM Admin ORDER BY id ASC")
     fun readAllAdminData(): LiveData<List<Superadmin>>
+
+
+
+    @Query("SELECT * FROM Admin WHERE username LIKE :name and password LIKE:pass")
+    fun checkAdmin(name:String,pass:String) : List<Superadmin>
 }

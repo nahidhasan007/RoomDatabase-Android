@@ -27,8 +27,12 @@ class AdminFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_admin, container, false)
         adminViewModel = ViewModelProvider(this)[AdminViewModel::class.java]
         var check = 0
+        var adminName: String
+        var adminPassword: String
         adminViewModel.readAdmin.observe(viewLifecycleOwner){
-            check+=it.size
+            //adminName = it[0].username
+            //adminPassword = it[0].password
+
         }
         /*val admin = Superadmin(0,"Admin","Admin")
         if(check<=2){
@@ -43,15 +47,21 @@ class AdminFragment : Fragment() {
         {
             val uname = username.text.toString()
             val pass = password.text.toString()
-            if(uname=="Admin" && pass=="Admin")
+            adminViewModel.adminLogin(uname,pass)
+            adminViewModel.isLoginSuccessful.observe(viewLifecycleOwner)
             {
-                findNavController().navigate(R.id.action_adminFragment_to_userListFragment)
+                if(it)
+                {
+                    findNavController().navigate(R.id.action_adminFragment_to_userListFragment)
+                }
+                else{
+                    Toast.makeText(view.context, "Invalid UserName or PassWord!", Toast.LENGTH_SHORT).show()
+                }
             }
-            else
-            {
-                Toast.makeText(view.context, "Wrong Username or Password!", Toast.LENGTH_SHORT).show()
-            }
+
         }
+
+
         return view
     }
 

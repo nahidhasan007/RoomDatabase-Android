@@ -2,6 +2,7 @@ package com.example.crud.data
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
@@ -17,5 +18,8 @@ interface UserDao {
 
     @Query("SELECT * FROM UserTable ORDER BY id ASC")
     fun readAllUserData(): LiveData<List<User>>
+
+    @Delete
+    suspend fun userDelete(user: User)
 
 }

@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import androidx.core.view.isGone
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,11 +33,23 @@ class AddUserFragment : Fragment() {
         val address = view.findViewById<EditText>(R.id.Address)
         val user_data = arguments?.getParcelable<User>("UserInfo")
         val addbtn = view.findViewById<Button>(R.id.addbutton)
+        val deletebtn = view.findViewById<Button>(R.id.deleteButton)
+        deletebtn.visibility = View.GONE
         if (user_data!=null) {
                 name.setText(user_data.name)
                 phone.setText(user_data.phone)
                 address.setText(user_data.address)
                 addbtn.setText("Update")
+                deletebtn.visibility = View.VISIBLE
+                deletebtn.setOnClickListener(){
+                    val uid = user_data.id
+                    val uName = name.text.toString()
+                    val uPhone = phone.text.toString()
+                    val uAddress = address.text.toString()
+                    val user = User(uid, uName, uPhone, uAddress)
+                    userViewModel.userDelete(user)
+                    findNavController().navigate(R.id.action_addUserFragment2_to_userListFragment)
+                }
                 addbtn.setOnClickListener() {
                     val uid = user_data.id
                     val uName = name.text.toString()
