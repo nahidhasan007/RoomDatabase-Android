@@ -31,6 +31,7 @@ class AddUserFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(layoutInflater,R.layout.fragment_add_user, container, false)
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
+
         /*val name = view.findViewById<EditText>(R.id.Name)
         val phone = view.findViewById<EditText>(R.id.Phone)
         val address = view.findViewById<EditText>(R.id.Address)
@@ -38,6 +39,8 @@ class AddUserFragment : Fragment() {
          */
         // Get views using binding
         val user_data = arguments?.getParcelable<User>("UserInfo")
+
+
        /* val addbtn = view.findViewById<Button>(R.id.addbutton)
         val deletebtn = view.findViewById<Button>(R.id.deleteButton)
 
@@ -74,13 +77,18 @@ class AddUserFragment : Fragment() {
                 val Phone = binding.Phone.text.toString()
                 val Address = binding.Address.text.toString()
                 val user = User(0, Name, Phone, Address)
+
                 // val recyclerView = view.findViewById<RecyclerView>(R.id.UserInfo)
+
                 userViewModel.addUser(user)
+
                 //val adapter = Adapter()
                 //val mLayoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
                 //recyclerView.layoutManager = mLayoutManager
                 //adapter.setData(listOf(user))
+
                 findNavController().navigate(R.id.action_addUserFragment2_to_userListFragment)
+                
                 //val db = userViewModel.readAllUserData()
                 //Log.i(TAG, db.toString())
 
